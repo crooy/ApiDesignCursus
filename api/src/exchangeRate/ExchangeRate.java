@@ -5,24 +5,31 @@
 package exchangeRate;
 
 /**
- *
+ * ExchangeRate
  * @author ronald
  */
 public final class ExchangeRate {
-    private Currency to;
-    private Currency from;
-    private double rate;
+    private Currency firstCurrency;
+    private Currency secondCurrency;
+    private double exchangeRate;
     
-    public Currency getTo() {
-        return to;
+    public Currency getFirstCurrency() {
+        return firstCurrency;
     }
     
-    public Currency getFrom() {
-        return from;
+    public Currency getSecondCurrency() {
+        return secondCurrency;
     }
     
-    public double getRate() {
-        return rate;
+    public double getExchangeRate() {
+        return exchangeRate;
+    }
+    
+    public ExchangeRate(double exchangeRate, Currency firstCurrency, Currency secondCurrency)
+    {
+        this.exchangeRate = exchangeRate;
+        this.firstCurrency = firstCurrency;
+        this.secondCurrency = secondCurrency;
     }
 
     @Override
@@ -34,10 +41,10 @@ public final class ExchangeRate {
             return false;
         }
         final ExchangeRate other = (ExchangeRate) obj;
-        if (this.to != other.to && (this.to == null || !this.to.equals(other.to))) {
+        if (this.firstCurrency != other.firstCurrency && (this.firstCurrency == null || !this.firstCurrency.equals(other.firstCurrency))) {
             return false;
         }
-        if (this.from != other.from && (this.from == null || !this.from.equals(other.from))) {
+        if (this.secondCurrency != other.secondCurrency && (this.secondCurrency == null || !this.secondCurrency.equals(other.secondCurrency))) {
             return false;
         }
         return true;
@@ -45,9 +52,9 @@ public final class ExchangeRate {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 19 * hash + (this.to != null ? this.to.hashCode() : 0);
-        hash = 19 * hash + (this.from != null ? this.from.hashCode() : 0);
+        int hash = 5;
+        hash = 59 * hash + (this.firstCurrency != null ? this.firstCurrency.hashCode() : 0);
+        hash = 59 * hash + (this.secondCurrency != null ? this.secondCurrency.hashCode() : 0);
         return hash;
     }
 }
