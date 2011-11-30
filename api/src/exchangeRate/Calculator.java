@@ -9,21 +9,28 @@ package exchangeRate;
  * @author ronald
  */
 public class Calculator {
-    private ExchangeRate exchangeRate;
+    private ExchangeRate firstExchangeRate;
+    private ExchangeRate secondExchangeRate;
+    
+    // constructor has default visibility
+    Calculator(ExchangeRate firstExchangeRate, ExchangeRate secondExchangeRate) {
+        assert(firstExchangeRate.getFirstCurrency().equals(secondExchangeRate.getSecondCurrency()));
+        assert(firstExchangeRate.getSecondCurrency().equals(secondExchangeRate.getFirstCurrency()));
+        this.firstExchangeRate = firstExchangeRate;
+        this.secondExchangeRate = secondExchangeRate;
+    }
     
     public CurrencyValue convert(CurrencyValue from, Currency to) throws CalculatorException {
-        assert (!exchangeRate.getFirstCurrency().equals(exchangeRate.getSecondCurrency()));
-        
         boolean directionEqualToExchangeRate = getExchangeDirection(to);
         verifyCurrencyFrom(directionEqualToExchangeRate, from);
         
         // we're set, lets convert!
         double newValue;
         if (directionEqualToExchangeRate) {
-            newValue = from.getValue() / exchangeRate.getExchangeRate();
+            newValue = from.getValue() / firstExchangeRate.getExchangeRate();
         }
         else {
-            newValue = from.getValue() * exchangeRate.getExchangeRate();
+            newValue = from.getValue() / secondExchangeRate.getExchangeRate();
         }
         
         return new CurrencyValue(to, newValue);
@@ -38,35 +45,30 @@ public class Calculator {
     private void verifyCurrencyFrom(boolean directionEqualToExchangeRate, CurrencyValue from) throws CalculatorException {
         if (directionEqualToExchangeRate)
         {
-            if (! exchangeRate.getFirstCurrency().equals(from)) {
+            if (! firstExchangeRate.getFirstCurrency().equals(from)) {
                 throw new CalculatorException("the 'from'-currency is not valid");
             }
         }
         else {
-            if (! exchangeRate.getSecondCurrency().equals(from)) {
+            if (! secondExchangeRate.getFirstCurrency().equals(from)) {
                 throw new CalculatorException("the 'from'-currency is not valid");
             }
         }
     }
 
     /**
-     * Find out if the 'direction' of the exchange is equal to the direction
-     * of the exchangeRate member. The direction for the exchange is:
-     * from --> to
-     * And for the exchangeRate:
-     * FirstCurrency --> SecondCurrency
+     * Find out which exchangeRate member matches the current exchange.
      * @param to
-     * @return true if the direction is equal, false if it is not
-     * @throws CalculatorException 
+     * @return true if the direction is equal to firstExchangeRate,
+     * false if is equal to secondExchangeRate
+     * @throws CalculatorException if to does not match any exchangeRate member
      */
     private boolean getExchangeDirection(Currency to) throws CalculatorException {
-        boolean directionEqualToExchangeRate;
-        
-        if (exchangeRate.getSecondCurrency().equals(to))
+        if (firstExchangeRate.getSecondCurrency().equals(to))
         {
             return true;
         }
-        else if (exchangeRate.getFirstCurrency().equals(to)) {
+        else if (secondExchangeRate.getSecondCurrency().equals(to)) {
             return false;
         }
         else {
