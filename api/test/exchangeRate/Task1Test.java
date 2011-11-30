@@ -9,8 +9,18 @@ import junit.framework.TestCase;
   * shall run without any runtime permissions.
   */
 public class Task1Test extends TestCase {
-     public Task1Test(String testName) {
+    
+     private static CalculatorModule calculatorModule;
+    
+    
+     public Task1Test(String testName) throws ExchangeRateCalculatorException {
          super(testName);
+         
+         calculatorModule = CalculatorModule.create();
+         calculatorModule.setExchangeRate(new ExchangeRate(1.0 / 17.0, new Currency("USD"), new Currency("CZK")));
+         calculatorModule.setExchangeRate(new ExchangeRate(17.0, new Currency("CZK"), new Currency("USD")));
+         calculatorModule.setExchangeRate(new ExchangeRate(100.0 / 80.0, new Currency("SKK"), new Currency("CZK")));
+         calculatorModule.setExchangeRate(new ExchangeRate(80.0 / 100.0, new Currency("CZK"), new Currency("SKK")));
      }
 
      @Override
@@ -40,8 +50,8 @@ public class Task1Test extends TestCase {
       *
       * @return prepared calculator ready for converting USD to CZK and CZK to USD
       */
-     public static Calculator createCZKtoUSD() {
-         return null;
+     public static Calculator createCZKtoUSD() throws ExchangeRateCalculatorException {
+         return calculatorModule.getCalculatorFactory().create(new Currency("CZK"), new Currency("USD"));
      }
 
      /** Create calculator that understands two currencies, CZK and
@@ -56,8 +66,8 @@ public class Task1Test extends TestCase {
       * 
       * @return prepared calculator ready for converting SKK to CZK and CZK to SKK
       */
-     public static Calculator createSKKtoCZK() {
-         return null;
+     public static Calculator createSKKtoCZK() throws ExchangeRateCalculatorException {
+         return calculatorModule.getCalculatorFactory().create(new Currency("SKK"), new Currency("CZK"));
      }
 
      //
@@ -71,15 +81,27 @@ public class Task1Test extends TestCase {
       * with it.
       */
      public void testExchangeCZKUSD() throws Exception {
+         Currency usd = new Currency("USD");
+         Currency czk = new Currency("CZK");
+         
          Calculator c = createCZKtoUSD();
          // convert $5 to CZK using c:
          // assertEquals("Result is 85 CZK");
+         CurrencyValue result = c.convert(new CurrencyValue(usd, 5.0), czk);
+         assertEquals(result.getValue(), 85.0);
+         assertEquals(result.getCurrency(), czk);
 
          // convert $8 to CZK
          // assertEquals("Result is 136 CZK");
+         result = c.convert(new CurrencyValue(usd, 8.0), czk);
+         assertEquals(result.getValue(), 136);
+         assertEquals(result.getCurrency(), czk);
 
          // convert 1003CZK to USD
          // assertEquals("Result is 59 USD");
+         result = c.convert(new CurrencyValue(czk, 1003.0), usd);
+         assertEquals(result.getValue(), 59);
+         assertEquals(result.getCurrency(), usd);
      }
 
      /** Use the calculator from <code>createSKKtoCZK</code> method and do a few calculations

@@ -12,7 +12,7 @@ public class CalculatorFactory implements ICalculatorFactory
 {
     private ExchangeRates exchangeRates;
     
-    public Calculator create(Currency firstCurrency, Currency secondCurrency) throws CalculatorException
+    public Calculator create(Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException
     {
         // get exchange rates from list
         ExchangeRate firstExchangeRate = exchangeRates.getExchangeRate(firstCurrency, secondCurrency);
@@ -27,6 +27,7 @@ public class CalculatorFactory implements ICalculatorFactory
     
     CalculatorFactory(ExchangeRates exchangeRates)
     {
+        assert(exchangeRates != null);
         this.exchangeRates = exchangeRates;
     }
 }
