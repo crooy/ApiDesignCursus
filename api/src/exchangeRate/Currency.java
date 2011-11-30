@@ -4,6 +4,8 @@
  */
 package exchangeRate;
 
+import java.util.regex.Pattern;
+
 /**
  *
  * @author ronald
@@ -12,8 +14,13 @@ public final class Currency {
     
     private final String name;
     
-    public Currency(String name){
-        this.name = name;
+    public Currency(String name) throws CurrencyException{
+        if (name == null) throw new CurrencyException("currency name cannot be null");
+        if (name.length() != 3) throw new CurrencyException("currency name must be 3 characters long");
+        Pattern validName = Pattern.compile("[a-zA-Z]{3}");
+        if (!validName.matcher(name).matches()) throw new CurrencyException("currency name must be 3 [A-Z] characters long");
+        
+        this.name = name.toUpperCase();
     }
     
     public final String getName(){

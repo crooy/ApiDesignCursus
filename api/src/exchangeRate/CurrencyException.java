@@ -6,11 +6,11 @@ package exchangeRate;
 
 /**
  *
- * @author frank
+ * @author ronald
  */
-class CalculatorException extends Exception {
+public class CurrencyException extends Exception {
 
-    CalculatorException(String string) {
+    CurrencyException(String string) {
         super(string);
     }
     
