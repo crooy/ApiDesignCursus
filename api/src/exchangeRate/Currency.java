@@ -39,6 +39,13 @@ public final class Currency {
         Currency c = (Currency)other;
         return ( c.name.equals(this.name));
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 71 * hash + (this.name != null ? this.name.hashCode() : 0);
+        return hash;
+    }
    
     
 }
