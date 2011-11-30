@@ -32,6 +32,7 @@ public final class Currency {
     
     public boolean equals(Object other){
         if (other == null) return false;
+        if (this == other) return true;
         
         boolean sameClass = other.getClass().equals(this.getClass());
         if (!sameClass) return false;
