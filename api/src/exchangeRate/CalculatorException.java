@@ -8,7 +8,7 @@ package exchangeRate;
  *
  * @author frank
  */
-class CalculatorException extends Exception {
+class CalculatorException extends ExchangeRateCalculatorException {
 
     CalculatorException(String string) {
         super(string);

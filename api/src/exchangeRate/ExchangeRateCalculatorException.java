@@ -8,10 +8,9 @@ package exchangeRate;
  *
  * @author ronald
  */
-public class CurrencyException extends ExchangeRateCalculatorException {
-
-    CurrencyException(String string) {
-        super(string);
+public abstract class ExchangeRateCalculatorException extends Exception{
+    public ExchangeRateCalculatorException(String mess){
+        super(mess);
     }
     
 }
