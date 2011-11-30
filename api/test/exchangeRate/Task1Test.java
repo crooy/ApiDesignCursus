@@ -108,12 +108,21 @@ public class Task1Test extends TestCase {
       * with it.
       */
      public void testExchangeSKKCZK() throws Exception {
+         Currency skk = new Currency("SKK");
+         Currency czk = new Currency("CZK");        
+         
          Calculator c = createSKKtoCZK();
          // convert 16CZK using c:
          // assertEquals("Result is 20 SKK");
+         CurrencyValue result = c.convert(new CurrencyValue(czk, 16.0), skk);
+         assertEquals(result.getValue(), 20.0);
+         assertEquals(result.getCurrency(), skk);
 
          // convert 500SKK to CZK
          // assertEquals("Result is 400 CZK");
+         result = c.convert(new CurrencyValue(skk, 500.0), czk);
+         assertEquals(result.getValue(), 400.0);
+         assertEquals(result.getCurrency(), czk);
      }
 
      /** Verify that the CZK to USD calculator knows nothing about SKK.
