@@ -9,5 +9,9 @@ package exchangeRate;
  * @author frank
  */
 class CalculatorException extends Exception {
+
+    CalculatorException(String string) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     
 }

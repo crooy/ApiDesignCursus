@@ -39,7 +39,7 @@ public class Calculator {
         {
             directionEqualToExchangeRate = true;
         }
-        else if (exchangeRate.getFirstCurrency.equals(to)) {
+        else if (exchangeRate.getFirstCurrency().equals(to)) {
             directionEqualToExchangeRate = false;
         }
         else {
