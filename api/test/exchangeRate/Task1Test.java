@@ -129,8 +129,18 @@ public class Task1Test extends TestCase {
       */
      public void testCannotConvertToSKKwithCZKUSDCalculator() throws Exception {
          Calculator c = createCZKtoUSD();
-         // convert $5 to SKK, the API shall say this is not possible
-         // convert 500 SKK to CZK, the API shall say this is not possible
+         try{
+             // convert $5 to SKK, the API shall say this is not possible
+             c.convert(new CurrencyValue(new Currency("USD"),5.0), new Currency("SKK"));
+             fail("should not be able to convert 500 SKK to CZK with this calculator");
+
+             // convert 500 SKK to CZK, the API shall say this is not possible
+             c.convert(new CurrencyValue(new Currency("SKK"),500.0), new Currency("CZK"));
+
+             fail("should not be able to convert 500 SKK to CZK with this calculator");
+         }catch(Exception e){
+             
+         }
      }
 
      /** Verify that the CZK to SKK calculator knows nothing about USD.
