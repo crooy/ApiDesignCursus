@@ -12,7 +12,11 @@ public class CurrencyValue {
     private final Double value;
     private final Currency currency;
     
-    public CurrencyValue(Currency currency, Double value){
+    public CurrencyValue(Currency currency, Double value) throws CurrencyValueException{
+        if (value == null) throw new CurrencyValueException("value cannot be null");
+        if (currency == null) throw new CurrencyValueException("currency cannot be null");
+        if (value < 0 ) throw new CurrencyValueException("value must be greater than zero");
+        
         this.value = value;
         this.currency = currency;
     }

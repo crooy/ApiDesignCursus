@@ -14,7 +14,7 @@ public final class Currency {
     
     private final String name;
     
-    public Currency(String name) throws CurrencyException{
+    public Currency(String name) throws ExchangeRateCalculatorException{
         if (name == null) throw new CurrencyException("currency name cannot be null");
         if (name.length() != 3) throw new CurrencyException("currency name must be 3 characters long");
         Pattern validName = Pattern.compile("[a-zA-Z]{3}");
