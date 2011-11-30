@@ -4,7 +4,7 @@
  */
 package exchangeRate;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -18,7 +18,7 @@ public class CurrencyTest {
 
     
     @Test
-    public void testGetName() throws CurrencyException{
+    public void testGetName() throws ExchangeRateCalculatorException{
         String given = "USD";
         String expected = given;
         
@@ -29,7 +29,7 @@ public class CurrencyTest {
     }
     
     @Test(expected = CurrencyException.class)
-    public void testEmptyConstruction() throws CurrencyException{
+    public void testEmptyConstruction() throws ExchangeRateCalculatorException{
         String given = null;
         String expected = null;
         
@@ -37,7 +37,7 @@ public class CurrencyTest {
     }
     
     @Test(expected = CurrencyException.class)
-    public void testTooShortConstruction() throws CurrencyException{
+    public void testTooShortConstruction() throws ExchangeRateCalculatorException{
         String given = "AA";
         String expected = null;
         
@@ -45,7 +45,7 @@ public class CurrencyTest {
     }   
     
     @Test(expected = CurrencyException.class)
-    public void testTooLongConstruction() throws CurrencyException{
+    public void testTooLongConstruction() throws ExchangeRateCalculatorException{
         String given = "BBBBBB";
         String expected = null;
         
@@ -53,7 +53,7 @@ public class CurrencyTest {
     }    
     
     @Test(expected = CurrencyException.class)
-    public void testNotACharStringConstruction() throws CurrencyException{
+    public void testNotACharStringConstruction() throws ExchangeRateCalculatorException{
         String given = "AA1";
         String expected = null;
         
@@ -61,7 +61,7 @@ public class CurrencyTest {
     }  
     
         @Test
-    public void testUpperCharConstruction() throws CurrencyException{
+    public void testUpperCharConstruction() throws ExchangeRateCalculatorException{
         String given = "aaa";
         String expected = "AAA";
         
