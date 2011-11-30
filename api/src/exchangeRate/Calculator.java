@@ -20,6 +20,7 @@ public final class Calculator {
         assert(firstExchangeRate.getSecondCurrency().equals(secondExchangeRate.getFirstCurrency()));
         this.firstExchangeRate = firstExchangeRate;
         this.secondExchangeRate = secondExchangeRate;
+        
     }
     
     public CurrencyValue convert(CurrencyValue from, Currency to) throws ExchangeRateCalculatorException {
@@ -29,10 +30,10 @@ public final class Calculator {
         // we're set, lets convert!
         BigDecimal newValue;
         if (directionEqualToExchangeRate) {
-            newValue = from.getValue().divide(firstExchangeRate.getExchangeRate())  ;
+            newValue = from.getValue().divide(firstExchangeRate.getExchangeRate(), BigDecimal.ROUND_HALF_EVEN)  ;
         }
         else {
-            newValue = from.getValue().divide(secondExchangeRate.getExchangeRate()) ;
+            newValue = from.getValue().divide(secondExchangeRate.getExchangeRate(), BigDecimal.ROUND_HALF_EVEN) ;
         }
         
         return new CurrencyValue(to, newValue);
