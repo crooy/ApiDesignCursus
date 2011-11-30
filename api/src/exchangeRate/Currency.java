@@ -30,25 +30,30 @@ public final class Currency {
     public final String toString(){
         return Sign();
     }
-    
+
     @Override
-    public boolean equals(Object other){
-        if (other == null) return false;
-        if (this == other) return true;
-        
-        boolean sameClass = other.getClass().equals(this.getClass());
-        if (!sameClass) return false;
-        
-        Currency c = (Currency)other;
-        return ( c.name.equals(this.name));
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Currency other = (Currency) obj;
+        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + (this.name != null ? this.name.hashCode() : 0);
+        int hash = 7;
+        hash = 29 * hash + (this.name != null ? this.name.hashCode() : 0);
         return hash;
     }
+    
+  
    
     
 }
