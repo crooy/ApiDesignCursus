@@ -1,5 +1,7 @@
 package exchangeRate;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import junit.framework.TestCase;
 
 /** Finish the Calculator API, and then write bodies of methods inside
@@ -17,10 +19,10 @@ public class Task1Test extends TestCase {
          super(testName);
          
          calculatorModule = CalculatorModule.create();
-         calculatorModule.setExchangeRate(new ExchangeRate(1.0 / 17.0, new Currency("USD"), new Currency("CZK")));
-         calculatorModule.setExchangeRate(new ExchangeRate(17.0, new Currency("CZK"), new Currency("USD")));
-         calculatorModule.setExchangeRate(new ExchangeRate(100.0 / 80.0, new Currency("SKK"), new Currency("CZK")));
-         calculatorModule.setExchangeRate(new ExchangeRate(80.0 / 100.0, new Currency("CZK"), new Currency("SKK")));
+         calculatorModule.setExchangeRate(new ExchangeRate(BigDecimal.ONE.divide(new BigDecimal(17)), new Currency("USD"), new Currency("CZK")));
+         calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(17), new Currency("CZK"), new Currency("USD")));
+         calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(100).divide(new BigDecimal(80)), new Currency("SKK"), new Currency("CZK")));
+         calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(80).divide(new BigDecimal(100)), new Currency("CZK"), new Currency("SKK")));
      }
 
      @Override
@@ -87,19 +89,19 @@ public class Task1Test extends TestCase {
          Calculator c = createCZKtoUSD();
          // convert $5 to CZK using c:
          // assertEquals("Result is 85 CZK");
-         CurrencyValue result = c.convert(new CurrencyValue(usd, 5.0), czk);
+         CurrencyValue result = c.convert(new CurrencyValue(usd, new BigDecimal(5)), czk);
          assertEquals(result.getValue(), 85.0);
          assertEquals(result.getCurrency(), czk);
 
          // convert $8 to CZK
          // assertEquals("Result is 136 CZK");
-         result = c.convert(new CurrencyValue(usd, 8.0), czk);
+         result = c.convert(new CurrencyValue(usd, new BigDecimal(8)), czk);
          assertEquals(result.getValue(), 136.0);
          assertEquals(result.getCurrency(), czk);
 
          // convert 1003CZK to USD
          // assertEquals("Result is 59 USD");
-         result = c.convert(new CurrencyValue(czk, 1003.0), usd);
+         result = c.convert(new CurrencyValue(czk, new BigDecimal(1003)), usd);
          assertEquals(result.getValue(), 59.0);
          assertEquals(result.getCurrency(), usd);
      }
@@ -114,13 +116,13 @@ public class Task1Test extends TestCase {
          Calculator c = createSKKtoCZK();
          // convert 16CZK using c:
          // assertEquals("Result is 20 SKK");
-         CurrencyValue result = c.convert(new CurrencyValue(czk, 16.0), skk);
+         CurrencyValue result = c.convert(new CurrencyValue(czk, new BigDecimal(16)), skk);
          assertEquals(result.getValue(), 20.0);
          assertEquals(result.getCurrency(), skk);
 
          // convert 500SKK to CZK
          // assertEquals("Result is 400 CZK");
-         result = c.convert(new CurrencyValue(skk, 500.0), czk);
+         result = c.convert(new CurrencyValue(skk, new BigDecimal(500)), czk);
          assertEquals(result.getValue(), 400.0);
          assertEquals(result.getCurrency(), czk);
      }
@@ -131,11 +133,11 @@ public class Task1Test extends TestCase {
          Calculator c = createCZKtoUSD();
          try{
              // convert $5 to SKK, the API shall say this is not possible
-             c.convert(new CurrencyValue(new Currency("USD"),5.0), new Currency("SKK"));
+             c.convert(new CurrencyValue(new Currency("USD"), new BigDecimal(5)), new Currency("SKK"));
              fail("should not be able to convert 500 SKK to CZK with this calculator");
 
              // convert 500 SKK to CZK, the API shall say this is not possible
-             c.convert(new CurrencyValue(new Currency("SKK"),500.0), new Currency("CZK"));
+             c.convert(new CurrencyValue(new Currency("SKK"), new BigDecimal(500)), new Currency("CZK"));
 
              fail("should not be able to convert 500 SKK to CZK with this calculator");
          }catch(Exception e){
@@ -154,7 +156,7 @@ public class Task1Test extends TestCase {
          
          // convert $5 to SKK, the API shall say this is not possible
          try {
-             CurrencyValue result = c.convert(new CurrencyValue(usd, 5.0), skk);
+             CurrencyValue result = c.convert(new CurrencyValue(usd, new BigDecimal(5)), skk);
              fail("converting USD using SKK/CZK calculator succeeded");
          }
          catch (ExchangeRateCalculatorException ex) {
@@ -163,7 +165,7 @@ public class Task1Test extends TestCase {
 
          // convert 500 CZK to USD, the API shall say this is not possible
          try {
-             CurrencyValue result = c.convert(new CurrencyValue(czk, 500.0), usd);
+             CurrencyValue result = c.convert(new CurrencyValue(czk, new BigDecimal(500)), usd);
              fail("converting USD using SKK/CZK calculator succeeded");
          }
          catch (ExchangeRateCalculatorException ex) {
