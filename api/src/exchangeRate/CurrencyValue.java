@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  *
  * @author ronald
  */
-public class CurrencyValue {
+public final class CurrencyValue {
     private final BigDecimal value;
     private final Currency currency;
     
