@@ -94,13 +94,13 @@ public class Task1Test extends TestCase {
          // convert $8 to CZK
          // assertEquals("Result is 136 CZK");
          result = c.convert(new CurrencyValue(usd, 8.0), czk);
-         assertEquals(result.getValue(), 136);
+         assertEquals(result.getValue(), 136.0);
          assertEquals(result.getCurrency(), czk);
 
          // convert 1003CZK to USD
          // assertEquals("Result is 59 USD");
          result = c.convert(new CurrencyValue(czk, 1003.0), usd);
-         assertEquals(result.getValue(), 59);
+         assertEquals(result.getValue(), 59.0);
          assertEquals(result.getCurrency(), usd);
      }
 
@@ -108,20 +108,39 @@ public class Task1Test extends TestCase {
       * with it.
       */
      public void testExchangeSKKCZK() throws Exception {
+         Currency skk = new Currency("SKK");
+         Currency czk = new Currency("CZK");        
+         
          Calculator c = createSKKtoCZK();
          // convert 16CZK using c:
          // assertEquals("Result is 20 SKK");
+         CurrencyValue result = c.convert(new CurrencyValue(czk, 16.0), skk);
+         assertEquals(result.getValue(), 20.0);
+         assertEquals(result.getCurrency(), skk);
 
          // convert 500SKK to CZK
          // assertEquals("Result is 400 CZK");
+         result = c.convert(new CurrencyValue(skk, 500.0), czk);
+         assertEquals(result.getValue(), 400.0);
+         assertEquals(result.getCurrency(), czk);
      }
 
      /** Verify that the CZK to USD calculator knows nothing about SKK.
       */
      public void testCannotConvertToSKKwithCZKUSDCalculator() throws Exception {
          Calculator c = createCZKtoUSD();
-         // convert $5 to SKK, the API shall say this is not possible
-         // convert 500 SKK to CZK, the API shall say this is not possible
+         try{
+             // convert $5 to SKK, the API shall say this is not possible
+             c.convert(new CurrencyValue(new Currency("USD"),5.0), new Currency("SKK"));
+             fail("should not be able to convert 500 SKK to CZK with this calculator");
+
+             // convert 500 SKK to CZK, the API shall say this is not possible
+             c.convert(new CurrencyValue(new Currency("SKK"),500.0), new Currency("CZK"));
+
+             fail("should not be able to convert 500 SKK to CZK with this calculator");
+         }catch(Exception e){
+             
+         }
      }
 
      /** Verify that the CZK to SKK calculator knows nothing about USD.
