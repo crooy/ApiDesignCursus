@@ -4,17 +4,17 @@
  */
 package exchangeRate;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- *
- * @author user
+ * Root component into the Calculator API.
+ * Use this class to get access to the calculator factory, as well as the
+ * exchange rates.
+ * @author Freek
  */
 public final class CalculatorModule {
     
     private ICalculatorFactory calculatorFactory = new CalculatorFactory();
-    private List<ExchangeRate> exchangeRates = new ArrayList<ExchangeRate>();
+    private ExchangeRates exchangeRates = new ExchangeRates();
     
     public static CalculatorModule create()
     {
@@ -28,9 +28,7 @@ public final class CalculatorModule {
     
     public void setExchangeRate(ExchangeRate exchangeRate)
     {
-        // remove possibly pre-existing exchange rate
-        exchangeRates.remove(exchangeRate);
-        exchangeRates.add(exchangeRate);
+        exchangeRates.setExchangeRate(exchangeRate);
     }
     
     private CalculatorModule()
