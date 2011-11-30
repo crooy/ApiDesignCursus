@@ -12,7 +12,9 @@ public final class Currency {
     
     private final String name;
     
-    public Currency(String name){
+    public Currency(String name) throws CurrencyException{
+        if (name == null) throw new CurrencyException("currency name cannot be null");
+        
         this.name = name;
     }
     
