@@ -13,8 +13,8 @@ package exchangeRate;
  */
 public final class CalculatorModule {
     
-    private ICalculatorFactory calculatorFactory = new CalculatorFactory();
-    private ExchangeRates exchangeRates = new ExchangeRates();
+    private ICalculatorFactory calculatorFactory;
+    private ExchangeRates exchangeRates;
     
     public static CalculatorModule create()
     {
@@ -33,5 +33,7 @@ public final class CalculatorModule {
     
     private CalculatorModule()
     {
+         exchangeRates = new ExchangeRates();
+         calculatorFactory = new CalculatorFactory(exchangeRates);
     }
 }

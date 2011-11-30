@@ -11,7 +11,7 @@ import java.util.List;
  * List of exchange rates.
  * @author Freek
  */
-public class ExchangeRates {
+public final class ExchangeRates {
     private List<ExchangeRate> exchangeRates = new ArrayList<ExchangeRate>();
     
     /**
@@ -24,5 +24,26 @@ public class ExchangeRates {
         // remove possibly pre-existing exchange rate
         exchangeRates.remove(exchangeRate);
         exchangeRates.add(exchangeRate);
+    }
+    
+    /**
+     * Get exchange rate for specified currencies.
+     * @param firstCurrency
+     * @param secondCurrency
+     * @return The exchange rate.
+     * @throws CalculatorException 
+     */
+    public ExchangeRate getExchangeRate(Currency firstCurrency, Currency secondCurrency) throws CalculatorException
+    {
+        for (ExchangeRate exchangeRate : exchangeRates)
+        {
+            if (exchangeRate.getFirstCurrency().equals(firstCurrency) &&
+                exchangeRate.getSecondCurrency().equals(secondCurrency))
+            {
+                return exchangeRate;
+            }
+        }
+        
+        throw new CalculatorException("Exchange rate not found.");
     }
 }
