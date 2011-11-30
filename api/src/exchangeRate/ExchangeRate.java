@@ -32,7 +32,7 @@ public final class ExchangeRate {
         if (exchangeRate == null) throw new ExchangeRateCalculatorException("value cannot be null");
         if (firstCurrency == null) throw new ExchangeRateCalculatorException("first currenty cannot be null");
         if (secondCurrency == null) throw new ExchangeRateCalculatorException("second currenty cannot be null");
-        if (exchangeRate.compareTo(BigDecimal.ZERO) <= 0 ) throw new ExchangeRateCalculatorException("rate cannot be negtive or 0.0 ");
+        if (exchangeRate.compareTo(BigDecimal.ZERO) <= 0 ) throw new ExchangeRateCalculatorException("rate cannot be negative or 0.0 ");
         if (firstCurrency.equals(secondCurrency)) throw new ExchangeRateCalculatorException("cannot define two equal currencies");
         
         this.exchangeRate = exchangeRate;
