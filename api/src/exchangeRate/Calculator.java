@@ -4,6 +4,8 @@
  */
 package exchangeRate;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author ronald
@@ -25,12 +27,12 @@ public final class Calculator {
         verifyCurrency(directionEqualToExchangeRate, from.getCurrency());
         
         // we're set, lets convert!
-        Double newValue;
+        BigDecimal newValue;
         if (directionEqualToExchangeRate) {
-            newValue = from.getValue() / firstExchangeRate.getExchangeRate();
+            newValue = from.getValue().divide(firstExchangeRate.getExchangeRate())  ;
         }
         else {
-            newValue = from.getValue() / secondExchangeRate.getExchangeRate();
+            newValue = from.getValue().divide(secondExchangeRate.getExchangeRate()) ;
         }
         
         return new CurrencyValue(to, newValue);
