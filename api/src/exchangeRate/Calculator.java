@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 public final class Calculator {
     private ExchangeRate firstExchangeRate;
     private ExchangeRate secondExchangeRate;
+    private final int roundingScale = 20;
     
     // constructor has default visibility
     Calculator(ExchangeRate firstExchangeRate, ExchangeRate secondExchangeRate) {
@@ -30,10 +31,10 @@ public final class Calculator {
         // we're set, lets convert!
         BigDecimal newValue;
         if (directionEqualToExchangeRate) {
-            newValue = from.getValue().divide(firstExchangeRate.getExchangeRate(), BigDecimal.ROUND_HALF_EVEN)  ;
+            newValue = from.getValue().divide(firstExchangeRate.getExchangeRate(), roundingScale, BigDecimal.ROUND_HALF_EVEN)  ;
         }
         else {
-            newValue = from.getValue().divide(secondExchangeRate.getExchangeRate(), BigDecimal.ROUND_HALF_EVEN) ;
+            newValue = from.getValue().divide(secondExchangeRate.getExchangeRate(),roundingScale, BigDecimal.ROUND_HALF_EVEN) ;
         }
         
         return new CurrencyValue(to, newValue);
