@@ -8,7 +8,7 @@ package exchangeRate;
  *
  * @author ronald
  */
-public abstract class ExchangeRateCalculatorException extends Exception{
+public  class ExchangeRateCalculatorException extends Exception{
     public ExchangeRateCalculatorException(String mess){
         super(mess);
     }
