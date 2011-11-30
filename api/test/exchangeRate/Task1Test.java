@@ -20,7 +20,7 @@ public class Task1Test extends TestCase {
          super(testName);
          
          calculatorModule = CalculatorModule.create();
-//         calculatorModule.setExchangeRate(new ExchangeRate(BigDecimal.ONE.divide(new BigDecimal(17), RoundingMode.HALF_EVEN), new Currency("USD"), new Currency("CZK")));
+         calculatorModule.setExchangeRate(new ExchangeRate(BigDecimal.ONE.divide(new BigDecimal(17), 20, RoundingMode.HALF_EVEN), new Currency("USD"), new Currency("CZK")));
          calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(17), new Currency("CZK"), new Currency("USD")));
          calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(100).divide(new BigDecimal(80)), new Currency("SKK"), new Currency("CZK")));
          calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(80).divide(new BigDecimal(100)), new Currency("CZK"), new Currency("SKK")));
