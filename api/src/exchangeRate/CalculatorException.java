@@ -11,7 +11,7 @@ package exchangeRate;
 class CalculatorException extends Exception {
 
     CalculatorException(String string) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        super(string);
     }
     
 }
