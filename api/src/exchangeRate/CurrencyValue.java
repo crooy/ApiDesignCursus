@@ -8,7 +8,7 @@ package exchangeRate;
  *
  * @author ronald
  */
-public class CurrencyValue {
+public final class CurrencyValue {
     private final Double value;
     private final Currency currency;
     

@@ -8,7 +8,7 @@ package exchangeRate;
  *
  * @author ronald
  */
-public class Calculator {
+public final class Calculator {
     private ExchangeRate firstExchangeRate;
     private ExchangeRate secondExchangeRate;
     
