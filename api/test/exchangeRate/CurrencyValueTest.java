@@ -55,4 +55,13 @@ public class CurrencyValueTest {
         new CurrencyValue(givenCurrency, givenValue);        
     }   
     
+    @Test(expected = CurrencyException.class)
+    public void testGetValueWithNegativeValue() throws ExchangeRateCalculatorException{
+        Currency givenCurrency = new Currency("EUR");
+        Double givenValue = -10.0;
+        
+        new CurrencyValue(givenCurrency, givenValue);        
+    }   
+    
+  
 }
