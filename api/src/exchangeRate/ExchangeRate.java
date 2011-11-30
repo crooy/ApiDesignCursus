@@ -4,6 +4,8 @@
  */
 package exchangeRate;
 
+import java.math.BigDecimal;
+
 /**
  * ExchangeRate
  * @author ronald
@@ -11,7 +13,7 @@ package exchangeRate;
 public final class ExchangeRate {
     private Currency firstCurrency;
     private Currency secondCurrency;
-    private double exchangeRate;
+    private BigDecimal exchangeRate;
     
     public Currency getFirstCurrency() {
         return firstCurrency;
@@ -21,16 +23,16 @@ public final class ExchangeRate {
         return secondCurrency;
     }
     
-    public double getExchangeRate() {
+    public BigDecimal getExchangeRate() {
         return exchangeRate;
     }
     
-    public ExchangeRate(Double exchangeRate, Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException
+    public ExchangeRate(BigDecimal exchangeRate, Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException
     {
         if (exchangeRate == null) throw new ExchangeRateCalculatorException("value cannot be null");
         if (firstCurrency == null) throw new ExchangeRateCalculatorException("first currenty cannot be null");
         if (secondCurrency == null) throw new ExchangeRateCalculatorException("second currenty cannot be null");
-        if (exchangeRate <= 0.0 ) throw new ExchangeRateCalculatorException("rate cannot be negtive or 0.0 ");
+        if (exchangeRate.compareTo(BigDecimal.ZERO) <= 0 ) throw new ExchangeRateCalculatorException("rate cannot be negtive or 0.0 ");
         if (firstCurrency.equals(secondCurrency)) throw new ExchangeRateCalculatorException("cannot define two equal currencies");
         
         this.exchangeRate = exchangeRate;
