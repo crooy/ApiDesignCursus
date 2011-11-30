@@ -26,10 +26,12 @@ public final class Currency {
         return sign;
     }
     
+    @Override
     public final String toString(){
         return Sign();
     }
     
+    @Override
     public boolean equals(Object other){
         if (other == null) return false;
         if (this == other) return true;
