@@ -8,6 +8,6 @@ package exchangeRate;
  *
  * @author ronald
  */
-public class CalculatorFactory {
+public class CalculatorFactory implements ICalculatorFactory {
     
 }
