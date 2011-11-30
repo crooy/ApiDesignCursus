@@ -58,4 +58,11 @@ public class ExchangeRateTest {
         Currency givenCurrency2 = new Currency("EUR");
         ExchangeRate rate = new ExchangeRate(dollarForOneEuroGiven, givenCurrency1, givenCurrency2 );        
     }
+    @Test(expected = ExchangeRateCalculatorException.class)
+    public void testZeroCurr() throws ExchangeRateCalculatorException{
+        Double dollarForOneEuroGiven = 0.0;
+        Currency givenCurrency1 = new Currency("USD");
+        Currency givenCurrency2 = new Currency("EUR");
+        ExchangeRate rate = new ExchangeRate(dollarForOneEuroGiven, givenCurrency1, givenCurrency2 );        
+    }
 }
