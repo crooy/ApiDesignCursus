@@ -25,8 +25,14 @@ public final class ExchangeRate {
         return exchangeRate;
     }
     
-    public ExchangeRate(double exchangeRate, Currency firstCurrency, Currency secondCurrency)
+    public ExchangeRate(Double exchangeRate, Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException
     {
+        if (exchangeRate == null) throw new ExchangeRateCalculatorException("value cannot be null");
+        if (firstCurrency == null) throw new ExchangeRateCalculatorException("first currenty cannot be null");
+        if (secondCurrency == null) throw new ExchangeRateCalculatorException("second currenty cannot be null");
+        if (exchangeRate <0 ) throw new ExchangeRateCalculatorException("rate cannot be negtive ");
+        if (firstCurrency.equals(secondCurrency)) throw new ExchangeRateCalculatorException("cannot define two equal currencies");
+        
         this.exchangeRate = exchangeRate;
         this.firstCurrency = firstCurrency;
         this.secondCurrency = secondCurrency;

@@ -20,9 +20,9 @@ public class Calculator {
         this.secondExchangeRate = secondExchangeRate;
     }
     
-    public CurrencyValue convert(CurrencyValue from, Currency to) throws CalculatorException {
+    public CurrencyValue convert(CurrencyValue from, Currency to) throws ExchangeRateCalculatorException {
         boolean directionEqualToExchangeRate = getExchangeDirection(to);
-        verifyCurrencyFrom(directionEqualToExchangeRate, from);
+        verifyCurrency(directionEqualToExchangeRate, from.getCurrency());
         
         // we're set, lets convert!
         double newValue;
@@ -42,16 +42,16 @@ public class Calculator {
      * @param from
      * @throws CalculatorException 
      */
-    private void verifyCurrencyFrom(boolean directionEqualToExchangeRate, CurrencyValue from) throws CalculatorException {
+    private void verifyCurrency(boolean directionEqualToExchangeRate, Currency currency) throws CalculatorException {
         if (directionEqualToExchangeRate)
         {
-            if (! firstExchangeRate.getFirstCurrency().equals(from)) {
-                throw new CalculatorException("the 'from'-currency is not valid");
+            if (! firstExchangeRate.getFirstCurrency().equals(currency)) {
+                throw new CalculatorException("the currency is not valid");
             }
         }
         else {
-            if (! secondExchangeRate.getFirstCurrency().equals(from)) {
-                throw new CalculatorException("the 'from'-currency is not valid");
+            if (! secondExchangeRate.getFirstCurrency().equals(currency)) {
+                throw new CalculatorException("the currency is not valid");
             }
         }
     }
