@@ -20,7 +20,7 @@ public class Calculator {
         this.secondExchangeRate = secondExchangeRate;
     }
     
-    public CurrencyValue convert(CurrencyValue from, Currency to) throws CalculatorException {
+    public CurrencyValue convert(CurrencyValue from, Currency to) throws ExchangeRateCalculatorException {
         boolean directionEqualToExchangeRate = getExchangeDirection(to);
         verifyCurrencyFrom(directionEqualToExchangeRate, from);
         
