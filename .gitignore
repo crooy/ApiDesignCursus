@@ -1,3 +1,5 @@
 
 api/build/
-api/nbproject/private
+api/nbproject/private/*
+api/nbproject
+
