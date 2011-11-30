@@ -4,24 +4,26 @@
  */
 package exchangeRate;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author ronald
  */
 public class CurrencyValue {
-    private final Double value;
+    private final BigDecimal value;
     private final Currency currency;
     
-    public CurrencyValue(Currency currency, Double value) throws CurrencyValueException{
+    public CurrencyValue(Currency currency, BigDecimal value) throws CurrencyValueException{
         if (value == null) throw new CurrencyValueException("value cannot be null");
         if (currency == null) throw new CurrencyValueException("currency cannot be null");
-        if (value < 0 ) throw new CurrencyValueException("value must be greater than zero");
+        if (value.compareTo(BigDecimal.ZERO) < 0) throw new CurrencyValueException("value must be greater than zero");
         
         this.value = value;
         this.currency = currency;
     }
     
-    public final Double getValue(){
+    public final BigDecimal getValue(){
         return value;
     }
     

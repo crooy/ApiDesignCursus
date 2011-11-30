@@ -25,7 +25,7 @@ public class Calculator {
         verifyCurrency(directionEqualToExchangeRate, from.getCurrency());
         
         // we're set, lets convert!
-        double newValue;
+        Double newValue;
         if (directionEqualToExchangeRate) {
             newValue = from.getValue() / firstExchangeRate.getExchangeRate();
         }
