@@ -17,11 +17,11 @@ public class CurrencyValue {
         this.currency = currency;
     }
     
-    public final Double Value(){
+    public final Double getValue(){
         return value;
     }
     
-    public final Currency Currency(){
+    public final Currency getCurrency(){
         return currency;
     }
     
@@ -39,10 +39,10 @@ public class CurrencyValue {
             return false;
         }
         final CurrencyValue other = (CurrencyValue) obj;
-        if (this.value != other.Value() && (this.value == null || !this.value.equals(other.Value()))) {
+        if (this.value != other.getValue() && (this.value == null || !this.value.equals(other.getValue()))) {
             return false;
         }
-        if (this.currency != other.Currency() && (this.currency == null || !this.currency.equals(other.Currency()))) {
+        if (this.currency != other.getCurrency() && (this.currency == null || !this.currency.equals(other.getCurrency()))) {
             return false;
         }
         return true;

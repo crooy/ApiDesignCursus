@@ -11,24 +11,13 @@ package exchangeRate;
 public final class Currency {
     
     private final String name;
-    private final String sign;
     
-    public Currency(String name, String sign){
+    public Currency(String name){
         this.name = name;
-        this.sign = sign;
     }
     
-    public final String Name(){
+    public final String getName(){
         return name;
-    }
-    
-    public final String Sign(){
-        return sign;
-    }
-    
-    @Override
-    public final String toString(){
-        return Sign();
     }
 
     @Override
