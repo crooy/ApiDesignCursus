@@ -74,5 +74,16 @@ public class CurrencyTest {
         String expected = null;
         
         Currency currency = new Currency(given);
-    }    
+    }  
+    
+        @Test
+    public void testUpperCharConstruction() throws CurrencyException{
+        String given = "aaa";
+        String expected = "AAA";
+        
+        Currency currency = new Currency(given);
+        String actual = currency.getName();
+        
+        Assert.assertEquals(expected, actual);
+    } 
 }
