@@ -39,7 +39,7 @@ public class CurrencyValueTest {
         Assert.assertSame(expected, actual);   
     }
     
-    @Test(expected = CurrencyException.class)
+    @Test(expected = CurrencyValueException.class)
     public void testGetCurrencyWithNull() throws ExchangeRateCalculatorException{
         Currency givenCurrency = null;
         Double givenValue = 99.0;
@@ -47,7 +47,7 @@ public class CurrencyValueTest {
         new CurrencyValue(givenCurrency, givenValue);        
     }
     
-    @Test(expected = CurrencyException.class)
+    @Test(expected = CurrencyValueException.class)
     public void testGetValueWithNull() throws ExchangeRateCalculatorException{
         Currency givenCurrency = new Currency("EUR");
         Double givenValue = null;
@@ -55,7 +55,7 @@ public class CurrencyValueTest {
         new CurrencyValue(givenCurrency, givenValue);        
     }   
     
-    @Test(expected = CurrencyException.class)
+    @Test(expected = CurrencyValueException.class)
     public void testGetValueWithNegativeValue() throws ExchangeRateCalculatorException{
         Currency givenCurrency = new Currency("EUR");
         Double givenValue = -10.0;
