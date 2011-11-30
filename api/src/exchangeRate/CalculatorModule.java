@@ -20,16 +20,17 @@ public final class CalculatorModule {
     {
         return new CalculatorModule();
     }
-    
-    public void setExchangeRate(ExchangeRate exchangeRate)
-    {
-        // search whether exchange rate already exists
         
-    }
-    
     public ICalculatorFactory getCalculatorFactory()
     {
         return calculatorFactory;
+    }
+    
+    public void setExchangeRate(ExchangeRate exchangeRate)
+    {
+        // remove possibly pre-existing exchange rate
+        exchangeRates.remove(exchangeRate);
+        exchangeRates.add(exchangeRate);
     }
     
     private CalculatorModule()
