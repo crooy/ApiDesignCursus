@@ -94,13 +94,13 @@ public class Task1Test extends TestCase {
          // convert $8 to CZK
          // assertEquals("Result is 136 CZK");
          result = c.convert(new CurrencyValue(usd, 8.0), czk);
-         assertEquals(result.getValue(), 136);
+         assertEquals(result.getValue(), 136.0);
          assertEquals(result.getCurrency(), czk);
 
          // convert 1003CZK to USD
          // assertEquals("Result is 59 USD");
          result = c.convert(new CurrencyValue(czk, 1003.0), usd);
-         assertEquals(result.getValue(), 59);
+         assertEquals(result.getValue(), 59.0);
          assertEquals(result.getCurrency(), usd);
      }
 
