@@ -6,8 +6,8 @@ package exchangeRate;
 
 /**
  *
- * @author ronald
+ * @author user
  */
-public class CalculatorFactory implements ICalculatorFactory {
+public interface ICalculatorFactory {
     
 }
