@@ -27,6 +27,16 @@ public final class ExchangeRate {
         return exchangeRate;
     }
     
+    /**
+     * 
+     * @param first
+     * @param second
+     * @return True if the 'direction' of the currencies is equal to that of this ExchangeRate
+     */
+    public boolean canConvert(Currency first, Currency second) {
+        return firstCurrency.equals(first) && secondCurrency.equals(second);
+    }
+    
     public ExchangeRate(BigDecimal exchangeRate, Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException
     {
         if (exchangeRate == null) throw new ExchangeRateCalculatorException("value cannot be null");
