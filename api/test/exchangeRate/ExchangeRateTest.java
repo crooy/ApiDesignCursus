@@ -150,7 +150,7 @@ public class ExchangeRateTest {
         BigDecimal dollarForOneEuroGiven2 = new BigDecimal(2.0);
         Currency givenCurrency3 = new Currency("USD");
         Currency givenCurrency4 = new Currency("EUR");
-        ExchangeRate rate2 = new ExchangeRate(dollarForOneEuroGiven2, givenCurrency1, givenCurrency2 );        
+        ExchangeRate rate2 = new ExchangeRate(dollarForOneEuroGiven2, givenCurrency3, givenCurrency4 );        
         
         Assert.assertFalse(rate1.equals(rate2));
     }
