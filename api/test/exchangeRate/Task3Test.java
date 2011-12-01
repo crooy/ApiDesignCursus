@@ -1,6 +1,7 @@
 package exchangeRate;
 
 import junit.framework.TestCase;
+import exchangeRateProvider.ChangingExchangeRates;
 
 /** The exchange rates are not always the same. They are changing. Day by day, hour by hour,        
   * minute by minute. For every bank it is important to always have the actual exchange rate
@@ -13,8 +14,13 @@ import junit.framework.TestCase;
   * like and how the calculator is supposed to be used to calculate exchanges
   **/
 public class Task3Test extends TestCase {
+    private static CalculatorModule calculatorModule;
+    private static final int ROUNDING_SCALE = 50;
+        
     public Task3Test(String testName) {
         super(testName);
+      
+        calculatorModule = CalculatorModule.create();
     }
 
     @Override
@@ -75,7 +81,7 @@ public class Task3Test extends TestCase {
     /** Join the Calculator and show they behave sane.
      */
     public void testOnlineCalculatorComposition() throws Exception {
-        Calculator c = Task2Test.merge(
+        Calculator c = merge(
             createOnlineCZKUSDCalculator(),
             Task1Test.createSKKtoCZK()
         );
@@ -87,6 +93,15 @@ public class Task3Test extends TestCase {
         // assertEquals("Result is 400 CZK");
 
         doFewQueriesForOnlineCalculator(c);
+    }
+    
+    /** Merge all exchange rates of calculator 1 with calculator 2.
+     * Implement this using your API, preferably this method just delegates
+     * into some API method which does the actual work, without requiring
+     * API clients to code anything complex.
+     */
+    public static Calculator merge(Calculator one, Calculator two) throws ExchangeRateCalculatorException {
+        return calculatorModule.getCalculatorFactory().create(one, two);
     }
 }
 
