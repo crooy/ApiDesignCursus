@@ -11,7 +11,7 @@ import java.util.List;
  * List of exchange rates.
  * @author Freek
  */
-public final class ExchangeRates {
+public class ExchangeRates {
     private List<ExchangeRate> exchangeRates = new ArrayList<ExchangeRate>();
     
     /**
@@ -33,7 +33,7 @@ public final class ExchangeRates {
      * @return The exchange rate.
      * @throws CalculatorException 
      */
-    public ExchangeRate getExchangeRate(Currency firstCurrency, Currency secondCurrency) throws CalculatorException
+    public ExchangeRate getExchangeRate(Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException
     {
         for (ExchangeRate exchangeRate : exchangeRates)
         {
