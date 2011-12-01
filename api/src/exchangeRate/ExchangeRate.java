@@ -27,6 +27,16 @@ public final class ExchangeRate {
         return exchangeRate;
     }
     
+    /**
+     * 
+     * @param first
+     * @param second
+     * @return True if the 'direction' of the currencies is equal to that of this ExchangeRate
+     */
+    public boolean canConvert(Currency first, Currency second) {
+        return firstCurrency.equals(first) && secondCurrency.equals(second);
+    }
+    
     public ExchangeRate(BigDecimal exchangeRate, Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException
     {
         if (exchangeRate == null) throw new ExchangeRateCalculatorException("value cannot be null");
@@ -40,6 +50,12 @@ public final class ExchangeRate {
         this.secondCurrency = secondCurrency;
     }
 
+    /**
+     * Compares this class with another exchange rate based on the currencies.
+     * Note that the exchange rate is not taken into account in the comparison.
+     * @param obj The right-hand side of the comparison.
+     * @return True when currencies of both objects are equal, otherwise return False.
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

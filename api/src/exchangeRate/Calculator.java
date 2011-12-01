@@ -5,78 +5,44 @@
 package exchangeRate;
 
 import java.math.BigDecimal;
+import java.util.*;
 
 /**
  *
  * @author ronald
  */
 public final class Calculator {
-    private ExchangeRate firstExchangeRate;
-    private ExchangeRate secondExchangeRate;
+    
+    private Set<ExchangeRate> exchangeRates;
     private final int roundingScale = 20;
     
     // constructor has default visibility
-    Calculator(ExchangeRate firstExchangeRate, ExchangeRate secondExchangeRate) {
-        assert(firstExchangeRate.getFirstCurrency().equals(secondExchangeRate.getSecondCurrency()));
-        assert(firstExchangeRate.getSecondCurrency().equals(secondExchangeRate.getFirstCurrency()));
-        this.firstExchangeRate = firstExchangeRate;
-        this.secondExchangeRate = secondExchangeRate;
-        
-    }
+    Calculator(Set<ExchangeRate> rates){
+        this.exchangeRates=rates;
+    }    
+    
     
     public CurrencyValue convert(CurrencyValue from, Currency to) throws ExchangeRateCalculatorException {
-        boolean directionEqualToExchangeRate = getExchangeDirection(to);
-        verifyCurrency(directionEqualToExchangeRate, from.getCurrency());
+        ExchangeRate requiredExchangeRate = findExchangeRate(from, to);
         
         // we're set, lets convert!
         BigDecimal newValue;
-        if (directionEqualToExchangeRate) {
-            newValue = from.getValue().divide(firstExchangeRate.getExchangeRate(), roundingScale, BigDecimal.ROUND_HALF_EVEN)  ;
-        }
-        else {
-            newValue = from.getValue().divide(secondExchangeRate.getExchangeRate(),roundingScale, BigDecimal.ROUND_HALF_EVEN) ;
-        }
+        newValue = from.getValue().divide(requiredExchangeRate.getExchangeRate(), roundingScale, BigDecimal.ROUND_HALF_EVEN)  ;
         
         return new CurrencyValue(to, newValue);
     }
 
-    /**
-     * Verifies that the 'from' currency is a valid currency.
-     * @param directionEqualToExchangeRate
-     * @param from
-     * @throws CalculatorException 
-     */
-    private void verifyCurrency(boolean directionEqualToExchangeRate, Currency currency) throws CalculatorException {
-        if (directionEqualToExchangeRate)
-        {
-            if (! firstExchangeRate.getFirstCurrency().equals(currency)) {
-                throw new CalculatorException("the currency is not valid");
+    private ExchangeRate findExchangeRate(CurrencyValue from, exchangeRate.Currency to) throws CalculatorException {
+        ExchangeRate requiredExchangeRate = null;
+        for(ExchangeRate rate : exchangeRates){
+            if (rate.canConvert((from.getCurrency()), to)){
+                requiredExchangeRate = rate;
+                break;
             }
         }
-        else {
-            if (! secondExchangeRate.getFirstCurrency().equals(currency)) {
-                throw new CalculatorException("the currency is not valid");
-            }
-        }
+        if (requiredExchangeRate == null) throw new CalculatorException("no exchangerate found that can convert this");
+        return requiredExchangeRate;
     }
 
-    /**
-     * Find out which exchangeRate member matches the current exchange.
-     * @param to
-     * @return true if the direction is equal to firstExchangeRate,
-     * false if is equal to secondExchangeRate
-     * @throws CalculatorException if to does not match any exchangeRate member
-     */
-    private boolean getExchangeDirection(Currency to) throws CalculatorException {
-        if (firstExchangeRate.getSecondCurrency().equals(to))
-        {
-            return true;
-        }
-        else if (secondExchangeRate.getSecondCurrency().equals(to)) {
-            return false;
-        }
-        else {
-            throw new CalculatorException("the 'to'-currency is not valid");
-        }
-    }
+    
 }
