@@ -73,10 +73,10 @@ class CalculatorFactory implements ICalculatorFactory
     {
     }
 
-    Set<ExchangeRate> mergeExchangeRates(Set<ExchangeRate> first, Set<ExchangeRate> second) throws ExchangeRateCalculatorException
+    private Set<ExchangeRate> mergeExchangeRates(Set<ExchangeRate> first, Set<ExchangeRate> second) throws ExchangeRateCalculatorException
     {
-        if (first == null||second == null) throw new NullPointerException();
-        if (first.size() ==0 || second.size() ==0) throw new ExchangeRateCalculatorException("cannot merge empty calculator");
+        assert(first == null||second == null);
+        assert(first.size() ==0 || second.size() ==0);
         
         
         Set<ExchangeRate> mergedRates = new HashSet<ExchangeRate>();
