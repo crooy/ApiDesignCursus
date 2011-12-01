@@ -31,6 +31,29 @@ class CalculatorFactory implements ICalculatorFactory
         return new Calculator(exchangeRates);
     }
     
+    public Calculator create(List<Pair<Currency, Currency>> currencyPairs) throws ExchangeRateCalculatorException
+    {
+        Set<ExchangeRate> finalExchangeRates = new HashSet<ExchangeRate>();
+        
+        try
+        {
+            for (Pair<Currency, Currency> currencyPair : currencyPairs)
+            {
+                ExchangeRate firstExchangeRate = exchangeRates.getExchangeRate(currencyPair.getFirst(), currencyPair.getSecond());
+                ExchangeRate secondExchangeRate = exchangeRates.getExchangeRate(currencyPair.getSecond(), currencyPair.getFirst());
+
+                finalExchangeRates.add(firstExchangeRate);
+                finalExchangeRates.add(secondExchangeRate);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ExchangeRateCalculatorException("Unable to create Calculator. Duplicate currency pairs specified.");
+        }
+        
+        return new Calculator(finalExchangeRates);
+    }
+
     public Calculator create(Calculator firstCalculator, Calculator secondCalculator) throws ExchangeRateCalculatorException
     {
         Set<ExchangeRate> exchangeRates = 
@@ -38,7 +61,7 @@ class CalculatorFactory implements ICalculatorFactory
         
         return new Calculator(exchangeRates);
     }
-
+    
     CalculatorFactory(ExchangeRates exchangeRates)
     {
         assert(exchangeRates != null);
