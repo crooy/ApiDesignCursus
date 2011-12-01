@@ -49,7 +49,7 @@ class CalculatorFactory implements ICalculatorFactory
         }
         catch (Exception e)
         {
-            throw new ExchangeRateCalculatorException("Unable to create Calculator. Duplicate currency pairs specified.");
+            throw new MergeCalculatorException("Unable to create Calculator. Duplicate currency pairs specified.");
         }
         
         return new Calculator(finalExchangeRates);
