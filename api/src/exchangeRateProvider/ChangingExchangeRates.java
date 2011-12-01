@@ -21,6 +21,8 @@ public class ChangingExchangeRates extends ExchangeRates {
     private List<ExchangeRate> exchangeRates = new ArrayList<ExchangeRate>();
     private static final int ROUNDING_SCALE = 50;
     
+    private boolean rateDirectionUp = false;
+    
     public ChangingExchangeRates() throws ExchangeRateCalculatorException
     {
         // add initial exchange rates
@@ -28,6 +30,19 @@ public class ChangingExchangeRates extends ExchangeRates {
         exchangeRates.add(new ExchangeRate(new BigDecimal(16), new Currency("CZK"), new Currency("USD")));
     }
 
+    /**
+     * Set the specified exchange rate.
+     * When the exchange rate already exists in the list, it is replaced.
+     * @param exchangeRate The exchange rate to add/replace in the list.
+     */
+    @Override
+    public void setExchangeRate(ExchangeRate exchangeRate)
+    {
+        // remove possibly pre-existing exchange rate
+        boolean removed = exchangeRates.remove(exchangeRate);
+        boolean added = exchangeRates.add(exchangeRate);
+    }
+    
     @Override
     public ExchangeRate getExchangeRate(Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException {
         
@@ -53,30 +68,51 @@ public class ChangingExchangeRates extends ExchangeRates {
         throw new ExchangeRateCalculatorException("Exchange rate not found."); 
     }
     
+    private BigDecimal inverse(BigDecimal number)
+    {
+        return BigDecimal.ONE.divide(number, ROUNDING_SCALE, RoundingMode.HALF_EVEN);
+    }
+    
     private void updateExchangeRate(ExchangeRate exchangeRate) throws ExchangeRateCalculatorException
     {
         Currency usd = new Currency("USD");
         Currency czk = new Currency("CZK");
         BigDecimal upperLimit = new BigDecimal(16);
         BigDecimal lowerLimit = new BigDecimal(15);
-        BigDecimal delta = new BigDecimal(1).divide(new BigDecimal(100), ROUNDING_SCALE, RoundingMode.HALF_EVEN);
+        BigDecimal delta = inverse(new BigDecimal(100));
         
         if (exchangeRate.getFirstCurrency().equals(usd) &&
             exchangeRate.getSecondCurrency().equals(czk))
         {
             // update this exchange rate
             BigDecimal rate = exchangeRate.getExchangeRate();
-            if (rate.compareTo(lowerLimit) >= 0)
+            rate = inverse(rate);
+            
+            if (rateDirectionUp)
             {
                 // increment exchange rate by removing it from the list and adding a new
                 rate = rate.add(delta);
+
+                if (rate.compareTo(upperLimit) >= 0)
+                {
+                    rateDirectionUp = false;
+                }
+                
+                rate = inverse(rate);
                 ExchangeRate newExchangeRate = new ExchangeRate(rate, exchangeRate.getFirstCurrency(), exchangeRate.getSecondCurrency());
                 setExchangeRate(newExchangeRate);
             }
-            else if (rate.compareTo(upperLimit) <= 0)
+            else
             {
                 // decrement exchange rate by removing it from the list and adding a new
                 rate = rate.subtract(delta);
+
+                if (rate.compareTo(lowerLimit) <= 0)
+                {
+                    rateDirectionUp = true;
+                }
+
+                rate = inverse(rate);
                 ExchangeRate newExchangeRate = new ExchangeRate(rate, exchangeRate.getFirstCurrency(), exchangeRate.getSecondCurrency());
                 setExchangeRate(newExchangeRate);
             }
