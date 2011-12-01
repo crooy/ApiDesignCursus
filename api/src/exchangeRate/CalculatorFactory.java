@@ -73,7 +73,7 @@ class CalculatorFactory implements ICalculatorFactory
     {
     }
 
-    private Set<ExchangeRate> mergeExchangeRates(Set<ExchangeRate> first, Set<ExchangeRate> second) throws ExchangeRateCalculatorException
+    Set<ExchangeRate> mergeExchangeRates(Set<ExchangeRate> first, Set<ExchangeRate> second) throws ExchangeRateCalculatorException
     {
         Set<ExchangeRate> mergedRates = new HashSet<ExchangeRate>();
         mergedRates.addAll(first);
