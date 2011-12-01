@@ -2,6 +2,8 @@ package exchangeRate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import junit.framework.TestCase;
 
 /** There are many currencies around the world and many banks manipulate
@@ -60,10 +62,11 @@ public class Task2Test extends TestCase {
         // Rates: 1USD = 15CZK
         // Rates: 1USD = 20SKK
         // Rates: 75CZK = 100SKK
-        Calculator calculatorUSDtoCZK = calculatorModule.getCalculatorFactory().create(new Currency("USD"), new Currency("CZK"));
-        //Calculator calculatorUSDtoSKK = calculatorModule.getCalculatorFactory().create(new Currency("USD"), new Currency("SKK"));
-        //Calculator calculatorCZKtoSKK = calculatorModule.getCalculatorFactory().create(new Currency("CZK"), new Currency("SKK"));
-        return calculatorUSDtoCZK;
+        List<Pair<Currency, Currency>> exchangeList = new ArrayList<Pair<Currency, Currency>>();
+        exchangeList.add(new Pair<Currency, Currency>(new Currency("USD"), new Currency("CZK")));
+        exchangeList.add(new Pair<Currency, Currency>(new Currency("USD"), new Currency("SKK")));
+        exchangeList.add(new Pair<Currency, Currency>(new Currency("CZK"), new Currency("SKK")));
+        return calculatorModule.getCalculatorFactory().create(exchangeList);
     }
 
     /** Use the calculator that understands three currencies.
@@ -73,9 +76,10 @@ public class Task2Test extends TestCase {
         
         Currency usd = new Currency("USD");
         Currency czk = new Currency("CZK");
-        Currency ssk = new Currency("SSK");
+        Currency skk = new Currency("SKK");
         
         // convert $5 to CZK using c:
+        // 75 czk
         CurrencyValue result = c.convert(new CurrencyValue(usd, new BigDecimal(5)), czk);
         assertEquals(0,result.getValue().compareTo(new BigDecimal (75)));
         assertEquals(result.getCurrency(), czk);
@@ -83,21 +87,21 @@ public class Task2Test extends TestCase {
         
         // convert $5 to SKK using c:
         // assertEquals("Result is 100 SSK");
-        result = c.convert(new CurrencyValue(usd, new BigDecimal(5)), ssk);
+        result = c.convert(new CurrencyValue(usd, new BigDecimal(5)), skk);
         assertEquals(0,result.getValue().compareTo(new BigDecimal (100)));
-        assertEquals(result.getCurrency(), ssk);
+        assertEquals(result.getCurrency(), skk);
 
 
         // convert 200SKK to CZK using c:
         // assertEquals("Result is 150 CZK");
-        result = c.convert(new CurrencyValue(ssk, new BigDecimal(200)), czk);
+        result = c.convert(new CurrencyValue(skk, new BigDecimal(200)), czk);
         assertEquals(0,result.getValue().compareTo(new BigDecimal (150)));
         assertEquals(result.getCurrency(), czk);
 
 
         // convert 200SKK to USK using c:
         // assertEquals("Result is 10 USD");
-        result = c.convert(new CurrencyValue(ssk, new BigDecimal(200)), usd);
+        result = c.convert(new CurrencyValue(skk, new BigDecimal(200)), usd);
         assertEquals(0,result.getValue().compareTo(new BigDecimal (10)));
         assertEquals(result.getCurrency(), usd);
     }
@@ -120,20 +124,38 @@ public class Task2Test extends TestCase {
             Task1Test.createSKKtoCZK()
         );
         
+        Currency usd = new Currency("USD");
+        Currency czk = new Currency("CZK");
+        Currency skk = new Currency("SKK");
+
         // convert $5 to CZK using c:
         // assertEquals("Result is 85 CZK");
+        CurrencyValue result = c.convert(new CurrencyValue(usd, new BigDecimal(5)), czk);
+        assertEquals(0,result.getValue().compareTo(new BigDecimal(85)));
+        assertEquals(result.getCurrency(), czk);
 
         // convert $8 to CZK using c:
         // assertEquals("Result is 136 CZK");
+        result = c.convert(new CurrencyValue(usd, new BigDecimal(8)), czk);
+        assertEquals(0,result.getValue().compareTo(new BigDecimal (136)));
+        assertEquals(result.getCurrency(), czk);
 
         // convert 1003CZK to USD using c:
         // assertEquals("Result is 59 USD");
+        result = c.convert(new CurrencyValue(czk, new BigDecimal(1003)), usd);
+        assertEquals(0,result.getValue().compareTo(new BigDecimal (59)));
+        assertEquals(result.getCurrency(), usd);
 
         // convert 16CZK using c:
         // assertEquals("Result is 20 SKK");
-
+        result = c.convert(new CurrencyValue(czk, new BigDecimal(16)), skk);
+        assertEquals(0,result.getValue().compareTo(new BigDecimal (20)));
+        assertEquals(result.getCurrency(), skk);
+        
         // convert 500SKK to CZK using c:
         // assertEquals("Result is 400 CZK");
-
+        result = c.convert(new CurrencyValue(skk, new BigDecimal(500)), czk);
+        assertEquals(0,result.getValue().compareTo(new BigDecimal (400)));
+        assertEquals(result.getCurrency(), skk);
     }
 }
