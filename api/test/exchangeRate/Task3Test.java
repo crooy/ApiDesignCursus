@@ -133,7 +133,7 @@ public class Task3Test extends TestCase {
 
         // convert 500SKK to CZK using c:
         // assertEquals("Result is 400 CZK");
-        result = c.convert(new CurrencyValue(czk, new BigDecimal(500)), skk);
+        result = c.convert(new CurrencyValue(skk, new BigDecimal(500)), czk);
         assertEquals(0,result.getValue().compareTo(new BigDecimal(400)));
         assertEquals(result.getCurrency(), czk);
 
