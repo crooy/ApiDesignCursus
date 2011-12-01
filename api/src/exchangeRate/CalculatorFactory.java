@@ -36,20 +36,17 @@ class CalculatorFactory implements ICalculatorFactory
     {
         Set<ExchangeRate> finalExchangeRates = new HashSet<ExchangeRate>();
         
-        try
+        for (Pair<Currency, Currency> currencyPair : currencyPairs)
         {
-            for (Pair<Currency, Currency> currencyPair : currencyPairs)
-            {
-                ExchangeRate firstExchangeRate = exchangeRates.getExchangeRate(currencyPair.getFirst(), currencyPair.getSecond());
-                ExchangeRate secondExchangeRate = exchangeRates.getExchangeRate(currencyPair.getSecond(), currencyPair.getFirst());
+            ExchangeRate firstExchangeRate = exchangeRates.getExchangeRate(currencyPair.getFirst(), currencyPair.getSecond());
+            ExchangeRate secondExchangeRate = exchangeRates.getExchangeRate(currencyPair.getSecond(), currencyPair.getFirst());
 
-                finalExchangeRates.add(firstExchangeRate);
-                finalExchangeRates.add(secondExchangeRate);
+            boolean firstRateAdded = finalExchangeRates.add(firstExchangeRate);
+            boolean secondRateAdded = finalExchangeRates.add(secondExchangeRate);
+            if (!firstRateAdded || !secondRateAdded)
+            {
+                throw new MergeCalculatorException("Unable to create Calculator. Duplicate currency pairs specified.");
             }
-        }
-        catch (Exception e)
-        {
-            throw new MergeCalculatorException("Unable to create Calculator. Duplicate currency pairs specified.");
         }
         
         return new Calculator(finalExchangeRates);

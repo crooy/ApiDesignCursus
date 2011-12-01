@@ -29,8 +29,11 @@ public class Task2Test extends TestCase {
         calculatorModule = CalculatorModule.create();
         
         calculatorModule.setExchangeRate(new ExchangeRate(BigDecimal.ONE.divide(new BigDecimal(15), ROUNDING_SCALE, RoundingMode.HALF_EVEN), new Currency("USD"), new Currency("CZK")));
+        calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(15), new Currency("CZK"), new Currency("USD")));
         calculatorModule.setExchangeRate(new ExchangeRate(BigDecimal.ONE.divide(new BigDecimal(20), ROUNDING_SCALE, RoundingMode.HALF_EVEN), new Currency("USD"), new Currency("SKK")));
+        calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(20), new Currency("SKK"), new Currency("USD")));
         calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(75).divide(new BigDecimal(100), ROUNDING_SCALE, RoundingMode.HALF_EVEN), new Currency("CZK"), new Currency("SKK")));
+        calculatorModule.setExchangeRate(new ExchangeRate(new BigDecimal(100).divide(new BigDecimal(75), ROUNDING_SCALE, RoundingMode.HALF_EVEN), new Currency("SKK"), new Currency("CZK")));
     }
 
     @Override
@@ -40,6 +43,14 @@ public class Task2Test extends TestCase {
     @Override
     protected void tearDown() throws Exception {
     }
+
+         public static Calculator createCZKtoUSD() throws ExchangeRateCalculatorException {
+         return calculatorModule.getCalculatorFactory().create(new Currency("CZK"), new Currency("USD"));
+     }
+
+     public static Calculator createSKKtoCZK() throws ExchangeRateCalculatorException {
+         return calculatorModule.getCalculatorFactory().create(new Currency("SKK"), new Currency("CZK"));
+     }
 
     // As in Task1Test, keep in mind, that there are three parts
     // of the whole system:
@@ -120,8 +131,8 @@ public class Task2Test extends TestCase {
      */
     public void testCalculatorComposition() throws Exception {
         Calculator c = merge(
-            Task1Test.createCZKtoUSD(),
-            Task1Test.createSKKtoCZK()
+            createCZKtoUSD(),
+            createSKKtoCZK()
         );
         
         Currency usd = new Currency("USD");
@@ -129,33 +140,33 @@ public class Task2Test extends TestCase {
         Currency skk = new Currency("SKK");
 
         // convert $5 to CZK using c:
-        // assertEquals("Result is 85 CZK");
+        // assertEquals("Result is 75 CZK");
         CurrencyValue result = c.convert(new CurrencyValue(usd, new BigDecimal(5)), czk);
-        assertEquals(0,result.getValue().compareTo(new BigDecimal(85)));
+        assertEquals(0,result.getValue().compareTo(new BigDecimal(75)));
         assertEquals(result.getCurrency(), czk);
 
         // convert $8 to CZK using c:
-        // assertEquals("Result is 136 CZK");
+        // assertEquals("Result is 120 CZK");
         result = c.convert(new CurrencyValue(usd, new BigDecimal(8)), czk);
-        assertEquals(0,result.getValue().compareTo(new BigDecimal (136)));
+        assertEquals(0,result.getValue().compareTo(new BigDecimal (120)));
         assertEquals(result.getCurrency(), czk);
 
         // convert 1003CZK to USD using c:
         // assertEquals("Result is 59 USD");
         result = c.convert(new CurrencyValue(czk, new BigDecimal(1003)), usd);
-        assertEquals(0,result.getValue().compareTo(new BigDecimal (59)));
+        assertEquals(0,result.getValue().compareTo(new BigDecimal(1003).divide(new BigDecimal(15), 20, RoundingMode.HALF_EVEN)));
         assertEquals(result.getCurrency(), usd);
 
-        // convert 16CZK using c:
+        // convert 15CZK using c:
         // assertEquals("Result is 20 SKK");
-        result = c.convert(new CurrencyValue(czk, new BigDecimal(16)), skk);
+        result = c.convert(new CurrencyValue(czk, new BigDecimal(15)), skk);
         assertEquals(0,result.getValue().compareTo(new BigDecimal (20)));
         assertEquals(result.getCurrency(), skk);
         
         // convert 500SKK to CZK using c:
-        // assertEquals("Result is 400 CZK");
+        // assertEquals("Result is 375 CZK");
         result = c.convert(new CurrencyValue(skk, new BigDecimal(500)), czk);
-        assertEquals(0,result.getValue().compareTo(new BigDecimal (400)));
-        assertEquals(result.getCurrency(), skk);
+        assertEquals(0,result.getValue().compareTo(new BigDecimal (375)));
+        assertEquals(result.getCurrency(), czk);
     }
 }
