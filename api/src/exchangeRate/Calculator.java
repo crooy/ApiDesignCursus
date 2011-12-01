@@ -15,11 +15,17 @@ import java.util.HashSet;
 public final class Calculator {
     
     private Set<ExchangeRate> exchangeRates;
+    private ExchangeRates ratesProvider;
+    
     private final int roundingScale = 20;
     
     // constructor has default visibility
     Calculator(Set<ExchangeRate> rates){
         this.exchangeRates = rates;
+    }
+    
+    Calculator(ExchangeRates ratesProvides){
+        this.ratesProvider = ratesProvider;
     }
     
     //default 
@@ -37,7 +43,11 @@ public final class Calculator {
         return new CurrencyValue(to, newValue);
     }
 
-    private ExchangeRate findExchangeRate(CurrencyValue from, exchangeRate.Currency to) throws CalculatorException {
+    private ExchangeRate findExchangeRate(CurrencyValue from, exchangeRate.Currency to) throws ExchangeRateCalculatorException {
+        if (this.ratesProvider != null ){
+            return new ExchangeRate(ratesProvider.getExchangeRate(from.getCurrency(), to));
+        }
+        
         ExchangeRate requiredExchangeRate = null;
         for(ExchangeRate rate : exchangeRates){
             if (rate.canConvert((from.getCurrency()), to)){
