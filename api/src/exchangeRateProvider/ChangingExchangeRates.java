@@ -22,6 +22,7 @@ public class ChangingExchangeRates extends ExchangeRates {
     private static final int ROUNDING_SCALE = 50;
     
     private boolean rateDirectionUp = false;
+    private int numberOfCalls = 0;
     
     public ChangingExchangeRates() throws ExchangeRateCalculatorException
     {
@@ -79,42 +80,40 @@ public class ChangingExchangeRates extends ExchangeRates {
         Currency czk = new Currency("CZK");
         BigDecimal upperLimit = new BigDecimal(16);
         BigDecimal lowerLimit = new BigDecimal(15);
-        BigDecimal delta = inverse(new BigDecimal(100));
+        BigDecimal delta = new BigDecimal("0.01");
         
         if (exchangeRate.getFirstCurrency().equals(usd) &&
             exchangeRate.getSecondCurrency().equals(czk))
         {
+            numberOfCalls++;
+            if (numberOfCalls >= 100)
+            {
+                rateDirectionUp = !rateDirectionUp;
+                numberOfCalls = 0;
+            }
             // update this exchange rate
-            BigDecimal rate = exchangeRate.getExchangeRate();
-            rate = inverse(rate);
-            
+            BigDecimal rate = null;
             if (rateDirectionUp)
             {
                 // increment exchange rate by removing it from the list and adding a new
-                rate = rate.add(delta);
-
-                if (rate.compareTo(upperLimit) >= 0)
-                {
-                    rateDirectionUp = false;
-                }
+                rate = lowerLimit.add(new BigDecimal(numberOfCalls).multiply(delta));
                 
-                rate = inverse(rate);
-                ExchangeRate newExchangeRate = new ExchangeRate(rate, exchangeRate.getFirstCurrency(), exchangeRate.getSecondCurrency());
+                ExchangeRate newExchangeRate = new ExchangeRate(inverse(rate), exchangeRate.getFirstCurrency(), exchangeRate.getSecondCurrency());
                 setExchangeRate(newExchangeRate);
             }
             else
             {
                 // decrement exchange rate by removing it from the list and adding a new
-                rate = rate.subtract(delta);
+                rate = upperLimit.subtract(new BigDecimal(numberOfCalls).multiply(delta));
 
-                if (rate.compareTo(lowerLimit) <= 0)
-                {
-                    rateDirectionUp = true;
-                }
-
-                rate = inverse(rate);
-                ExchangeRate newExchangeRate = new ExchangeRate(rate, exchangeRate.getFirstCurrency(), exchangeRate.getSecondCurrency());
+                ExchangeRate newExchangeRate = new ExchangeRate(inverse(rate), exchangeRate.getFirstCurrency(), exchangeRate.getSecondCurrency());
                 setExchangeRate(newExchangeRate);
+            }
+            
+            if (rate != null)
+            {
+                ExchangeRate newReverseExchangeRate = new ExchangeRate(rate, exchangeRate.getSecondCurrency(), exchangeRate.getFirstCurrency());
+                setExchangeRate(newReverseExchangeRate);
             }
         }
     }
