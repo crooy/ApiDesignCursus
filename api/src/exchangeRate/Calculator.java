@@ -24,7 +24,7 @@ public final class Calculator {
         this.exchangeRates = rates;
     }
     
-    Calculator(ExchangeRates ratesProvides){
+    public Calculator(ExchangeRates ratesProvides){
         this.ratesProvider = ratesProvider;
     }
     
