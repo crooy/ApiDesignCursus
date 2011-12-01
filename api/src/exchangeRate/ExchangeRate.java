@@ -37,6 +37,11 @@ public final class ExchangeRate {
         if (second == null || first == null) throw new NullPointerException();
         return firstCurrency.equals(first) && secondCurrency.equals(second);
     }
+
+    public ExchangeRate reverse() throws ExchangeRateCalculatorException
+    {
+        return new ExchangeRate(BigDecimal.ONE.divide(exchangeRate), secondCurrency, firstCurrency);
+    }
     
     public ExchangeRate(BigDecimal exchangeRate, Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException
     {
