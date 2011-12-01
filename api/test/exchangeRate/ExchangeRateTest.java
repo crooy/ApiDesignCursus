@@ -5,6 +5,7 @@
 package exchangeRate;
 
 import java.math.BigDecimal;
+import junit.framework.Assert;
 import org.junit.Test;
 
 
@@ -65,5 +66,47 @@ public class ExchangeRateTest {
         Currency givenCurrency1 = new Currency("USD");
         Currency givenCurrency2 = new Currency("EUR");
         ExchangeRate rate = new ExchangeRate(dollarForOneEuroGiven, givenCurrency1, givenCurrency2 );        
+    }
+    
+    @Test
+    public void testCanConvert() throws ExchangeRateCalculatorException{
+        BigDecimal dollarForOneEuroGiven = new BigDecimal(1.0);
+        Currency givenCurrency1 = new Currency("USD");
+        Currency givenCurrency2 = new Currency("EUR");
+        ExchangeRate rate = new ExchangeRate(dollarForOneEuroGiven, givenCurrency1, givenCurrency2 );        
+        
+        boolean expected = true;
+        boolean actual = rate.canConvert(givenCurrency1, givenCurrency2);
+        
+        Assert.assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testCanNotConvert() throws ExchangeRateCalculatorException{
+        BigDecimal dollarForOneEuroGiven = new BigDecimal(1.0);
+        Currency givenCurrency1 = new Currency("USD");
+        Currency givenCurrency2 = new Currency("EUR");
+        Currency givenCurrency3 = new Currency("YEN");
+        ExchangeRate rate = new ExchangeRate(dollarForOneEuroGiven, givenCurrency1, givenCurrency2 );        
+        
+        boolean expected = false;
+        boolean actual = rate.canConvert(givenCurrency2, givenCurrency3);
+        
+        Assert.assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testCanNotConvertNulls() throws ExchangeRateCalculatorException{
+        BigDecimal dollarForOneEuroGiven = new BigDecimal(1.0);
+        Currency givenCurrency1 = new Currency("USD");
+        Currency givenCurrency2 = new Currency("EUR");
+        Currency givenCurrency3 = null;
+        ExchangeRate rate = new ExchangeRate(dollarForOneEuroGiven, givenCurrency1, givenCurrency2 );        
+        try{
+            boolean actual = rate.canConvert(givenCurrency2, null);
+            Assert.fail("fail1");
+        }catch(NullPointerException e){
+            
+        }
     }
 }
