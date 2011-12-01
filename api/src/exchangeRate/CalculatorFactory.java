@@ -51,13 +51,38 @@ class CalculatorFactory implements ICalculatorFactory
         
         return new Calculator(finalExchangeRates);
     }
+    
+    private Calculator mergeTwoCalculators(Calculator calc1, Calculator calc2) throws ExchangeRateCalculatorException{
+        assert(calc1 != null);
+        assert(calc2 != null);
+        
+        Calculator result;
+        if (calc1.getRatesProvider() == null){
+            if (calc2.getRatesProvider() == null){
+                //both offline
+                Set<ExchangeRate> exchangeRates = 
+                mergeExchangeRates(calc1.getExchangeRates(), calc2.getExchangeRates());
+        
+                result =  new Calculator(exchangeRates);
+            }else{
+                //one offline two online
+                result = calc2.clone();
+            }
+        }else{
+            if (calc2.getRatesProvider() == null){
+                //one oneline two offline
+                result = calc1.clone();               
+            }else{
+                //both online
+                result = calc1.clone();                
+            }
+        }
+        return result;
+    }
 
     public Calculator create(Calculator firstCalculator, Calculator secondCalculator) throws ExchangeRateCalculatorException
     {
-        Set<ExchangeRate> exchangeRates = 
-                mergeExchangeRates(firstCalculator.getExchangeRates(), secondCalculator.getExchangeRates());
-        
-        return new Calculator(exchangeRates);
+        return mergeTwoCalculators(firstCalculator, secondCalculator);
     }
     
     CalculatorFactory(ExchangeRates exchangeRates)

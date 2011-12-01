@@ -24,6 +24,13 @@ public final class Calculator {
         this.exchangeRates = rates;
     }
     
+    
+    //default scope
+    ExchangeRates getRatesProvider(){
+        return ratesProvider;
+    }
+    
+    
     public Calculator(ExchangeRates ratesProvider){
         this.ratesProvider = ratesProvider;
     }
