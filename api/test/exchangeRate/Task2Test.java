@@ -107,8 +107,8 @@ public class Task2Test extends TestCase {
      * into some API method which does the actual work, without requiring
      * API clients to code anything complex.
      */
-    public static Calculator merge(Calculator one, Calculator two) {
-        return null;
+    public static Calculator merge(Calculator one, Calculator two) throws ExchangeRateCalculatorException {
+        return calculatorModule.getCalculatorFactory().create(one, two);
     }
 
     /** Join the Calculator from previous task, Task1Test and show that it
@@ -119,7 +119,7 @@ public class Task2Test extends TestCase {
             Task1Test.createCZKtoUSD(),
             Task1Test.createSKKtoCZK()
         );
-
+        
         // convert $5 to CZK using c:
         // assertEquals("Result is 85 CZK");
 
