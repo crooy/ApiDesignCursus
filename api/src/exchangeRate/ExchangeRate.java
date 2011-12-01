@@ -43,6 +43,10 @@ public final class ExchangeRate {
         return new ExchangeRate(BigDecimal.ONE.divide(exchangeRate), secondCurrency, firstCurrency);
     }
     
+    public ExchangeRate(ExchangeRate newRate) throws ExchangeRateCalculatorException{
+        this(newRate.exchangeRate, newRate.firstCurrency, newRate.secondCurrency);
+    }
+    
     public ExchangeRate(BigDecimal exchangeRate, Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException
     {
         if (exchangeRate == null) throw new ExchangeRateCalculatorException("value cannot be null");
