@@ -4,6 +4,9 @@
  */
 package exchangeRate;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  *
  * @author user
@@ -11,4 +14,5 @@ package exchangeRate;
 public interface ICalculatorFactory {
     Calculator create(Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException;
     Calculator create(Calculator firstCalculator, Calculator secondCalculator) throws ExchangeRateCalculatorException;
+    Calculator create(Collection<Pair<Currency, Currency>> currencyPairs) throws ExchangeRateCalculatorException;
 }

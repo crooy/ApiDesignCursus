@@ -5,6 +5,7 @@
 package exchangeRate;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ class CalculatorFactory implements ICalculatorFactory
         return new Calculator(exchangeRates);
     }
     
-    public Calculator create(List<Pair<Currency, Currency>> currencyPairs) throws ExchangeRateCalculatorException
+    public Calculator create(Collection<Pair<Currency, Currency>> currencyPairs) throws ExchangeRateCalculatorException
     {
         Set<ExchangeRate> finalExchangeRates = new HashSet<ExchangeRate>();
         
