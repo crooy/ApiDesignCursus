@@ -34,6 +34,7 @@ public final class ExchangeRate {
      * @return True if the 'direction' of the currencies is equal to that of this ExchangeRate
      */
     public boolean canConvert(Currency first, Currency second) {
+        if (second == null || first == null) throw new NullPointerException();
         return firstCurrency.equals(first) && secondCurrency.equals(second);
     }
     
