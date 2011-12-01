@@ -66,12 +66,12 @@ class CalculatorFactory implements ICalculatorFactory
                 result =  new Calculator(exchangeRates);
             }else{
                 //one offline two online
-                result = calc1.copy();
+                result = new Calculator(calc1.getExchangeRates(), calc2.getRatesProvider());
             }
         }else{
             if (calc2.getRatesProvider() == null){
                 //one oneline two offline
-                result = calc2.copy();               
+                result = new Calculator(calc2.getExchangeRates(), calc1.getRatesProvider());
             }else{
                 //both online
                 result = calc1.copy();                

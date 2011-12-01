@@ -23,6 +23,10 @@ public final class Calculator  {
     Calculator(Set<ExchangeRate> rates){
         this.exchangeRates = rates;
     }
+    Calculator(Set<ExchangeRate> rates, ExchangeRates provider){
+        this.exchangeRates = rates;
+        this.ratesProvider = provider;
+    }
     
     
     //default scope
@@ -52,9 +56,17 @@ public final class Calculator  {
     }
 
     private ExchangeRate findExchangeRate(CurrencyValue from, exchangeRate.Currency to) throws ExchangeRateCalculatorException {
-        if (this.ratesProvider != null ){
-            return new ExchangeRate(ratesProvider.getExchangeRate(from.getCurrency(), to));
-        }else{
+        ExchangeRate result=null;
+        try{
+            if (this.ratesProvider != null ){
+                result = new ExchangeRate(ratesProvider.getExchangeRate(from.getCurrency(), to)); 
+            }
+        }catch(ExchangeRateCalculatorException e){
+            result = null;
+        } 
+        
+        if (result == null){
+
             assert(exchangeRates != null);
             
             ExchangeRate requiredExchangeRate = null;
@@ -65,8 +77,10 @@ public final class Calculator  {
                 }
             }
             if (requiredExchangeRate == null) throw new CalculatorException("no exchangerate found that can convert this");
-            return requiredExchangeRate;
+            result = requiredExchangeRate;
         }
+        assert(result!= null);
+        return result;
     }
 
     
