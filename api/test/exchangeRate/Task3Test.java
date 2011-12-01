@@ -91,18 +91,18 @@ public class Task3Test extends TestCase {
         // convert $8 to CZK using c:
         //assertEquals("Result is 127.92 CZK");
         result = c.convert(new CurrencyValue(usd, new BigDecimal(8)), czk);
-        assertEquals(0,result.getValue().compareTo(new BigDecimal(127.92)));
+        assertEquals(0,result.getValue().compareTo(new BigDecimal("127.92")));
         assertEquals(result.getCurrency(), czk);
 
         // convert $1 to CZK using c:
         //assertEquals("Result is 15.98 CZK");
         result = c.convert(new CurrencyValue(usd, new BigDecimal(1)), czk);
-        assertEquals(0,result.getValue().compareTo(new BigDecimal(15.98)));
+        assertEquals(0,result.getValue().compareTo(new BigDecimal("15.98")));
         assertEquals(result.getCurrency(), czk);
 
         // convert 15.97CZK to USD using c:
         //assertEquals("Result is 1$");
-        result = c.convert(new CurrencyValue(czk, new BigDecimal(15.97)), usd);
+        result = c.convert(new CurrencyValue(czk, new BigDecimal("15.97")), usd);
         assertEquals(0,result.getValue().compareTo(new BigDecimal(1)));
         assertEquals(result.getCurrency(), usd);
 
