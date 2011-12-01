@@ -12,7 +12,7 @@ import java.util.HashSet;
  *
  * @author ronald
  */
-public final class Calculator {
+public final class Calculator implements Cloneable {
     
     private Set<ExchangeRate> exchangeRates;
     private ExchangeRates ratesProvider;
@@ -62,5 +62,20 @@ public final class Calculator {
         }
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Calculator result;
+        if (this.exchangeRates == null)
+        {
+            result = new Calculator(this.ratesProvider);
+        }
+        else
+        {
+            result = new Calculator(this.getExchangeRates());
+        }
+        return result;
+    }
+
+    
     
 }
