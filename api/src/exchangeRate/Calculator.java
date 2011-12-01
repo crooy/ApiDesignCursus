@@ -30,7 +30,8 @@ public final class Calculator {
     
     //default 
     Set<ExchangeRate> getExchangeRates(){
-        return new HashSet<ExchangeRate>(exchangeRates);
+        assert(exchangeRates != null);
+        return new HashSet<ExchangeRate>(exchangeRates);        
     }
     
     public CurrencyValue convert(CurrencyValue from, Currency to) throws ExchangeRateCalculatorException {
