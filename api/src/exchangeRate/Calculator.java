@@ -6,6 +6,7 @@ package exchangeRate;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.HashSet;
 
 /**
  *
@@ -18,9 +19,13 @@ public final class Calculator {
     
     // constructor has default visibility
     Calculator(Set<ExchangeRate> rates){
-        this.exchangeRates=rates;
-    }    
+        this.exchangeRates = rates;
+    }
     
+    //default 
+    Set<ExchangeRate> getExchangeRates(){
+        return new HashSet<ExchangeRate>(exchangeRates);
+    }
     
     public CurrencyValue convert(CurrencyValue from, Currency to) throws ExchangeRateCalculatorException {
         ExchangeRate requiredExchangeRate = findExchangeRate(from, to);

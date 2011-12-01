@@ -5,7 +5,10 @@
 package exchangeRate;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -21,7 +24,7 @@ class CalculatorFactory implements ICalculatorFactory
         ExchangeRate firstExchangeRate = exchangeRates.getExchangeRate(firstCurrency, secondCurrency);
         ExchangeRate secondExchangeRate = exchangeRates.getExchangeRate(secondCurrency, firstCurrency);
         
-        List<ExchangeRate> exchangeRates = new ArrayList<ExchangeRate>();
+        Set<ExchangeRate> exchangeRates = new HashSet<ExchangeRate>();
         exchangeRates.add(firstExchangeRate);
         exchangeRates.add(secondExchangeRate);
         
@@ -30,7 +33,7 @@ class CalculatorFactory implements ICalculatorFactory
     
     public Calculator create(Calculator firstCalculator, Calculator secondCalculator) throws ExchangeRateCalculatorException
     {
-        List<ExchangeRate> exchangeRates = 
+        Set<ExchangeRate> exchangeRates = 
                 mergeExchangeRates(firstCalculator.getExchangeRates(), secondCalculator.getExchangeRates());
         
         return new Calculator(exchangeRates);
@@ -46,27 +49,16 @@ class CalculatorFactory implements ICalculatorFactory
     {
     }
 
-    private List<ExchangeRate> mergeExchangeRates(List<ExchangeRate> first, List<ExchangeRate> second) throws ExchangeRateCalculatorException
+    private Set<ExchangeRate> mergeExchangeRates(Set<ExchangeRate> first, Set<ExchangeRate> second) throws ExchangeRateCalculatorException
     {
-        List<ExchangeRate> mergedRates = new ArrayList<ExchangeRate>();
+        TreeSet<ExchangeRate> mergedRates = new TreeSet<ExchangeRate>();
         mergedRates.addAll(first);
-        for (ExchangeRate exchangeRate : second)
-        {
-            int index = mergedRates.indexOf(exchangeRate);
-            if (index != -1)
-            {
-                mergedRates.add(exchangeRate);
-            }
-            else
-            {
-                ExchangeRate firstExchangeRate = mergedRates.get(index);
-                // when exchange rate is the same, no actions have to be done
-                if (!firstExchangeRate.getExchangeRate().equals(exchangeRate.getExchangeRate()))
-                {
-                    throw new ExchangeRateCalculatorException("Unable to merge exchange rates, different exchange rate values found for same currencies.");
-                }
-            }
-        }    
+        mergedRates.addAll(second);
+        
+        if (second.size() + first.size() != mergedRates.size()){
+            throw new MergeCalculatorException("Calculators cannot contain the same exchangeRates");
+        }
+            
         return mergedRates;
     }    
 }
