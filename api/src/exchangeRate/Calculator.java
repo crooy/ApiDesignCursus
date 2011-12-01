@@ -24,7 +24,7 @@ public final class Calculator {
         this.exchangeRates = rates;
     }
     
-    public Calculator(ExchangeRates ratesProvides){
+    public Calculator(ExchangeRates ratesProvider){
         this.ratesProvider = ratesProvider;
     }
     
@@ -46,17 +46,19 @@ public final class Calculator {
     private ExchangeRate findExchangeRate(CurrencyValue from, exchangeRate.Currency to) throws ExchangeRateCalculatorException {
         if (this.ratesProvider != null ){
             return new ExchangeRate(ratesProvider.getExchangeRate(from.getCurrency(), to));
-        }
-        
-        ExchangeRate requiredExchangeRate = null;
-        for(ExchangeRate rate : exchangeRates){
-            if (rate.canConvert((from.getCurrency()), to)){
-                requiredExchangeRate = rate;
-                break;
+        }else{
+            assert(exchangeRates != null);
+            
+            ExchangeRate requiredExchangeRate = null;
+            for(ExchangeRate rate : exchangeRates){
+                if (rate.canConvert((from.getCurrency()), to)){
+                    requiredExchangeRate = rate;
+                    break;
+                }
             }
+            if (requiredExchangeRate == null) throw new CalculatorException("no exchangerate found that can convert this");
+            return requiredExchangeRate;
         }
-        if (requiredExchangeRate == null) throw new CalculatorException("no exchangerate found that can convert this");
-        return requiredExchangeRate;
     }
 
     
