@@ -2,6 +2,8 @@ package exchangeRate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import junit.framework.TestCase;
 
 /** There are many currencies around the world and many banks manipulate
@@ -60,10 +62,11 @@ public class Task2Test extends TestCase {
         // Rates: 1USD = 15CZK
         // Rates: 1USD = 20SKK
         // Rates: 75CZK = 100SKK
-        Calculator calculatorUSDtoCZK = calculatorModule.getCalculatorFactory().create(new Currency("USD"), new Currency("CZK"));
-        //Calculator calculatorUSDtoSKK = calculatorModule.getCalculatorFactory().create(new Currency("USD"), new Currency("SKK"));
-        //Calculator calculatorCZKtoSKK = calculatorModule.getCalculatorFactory().create(new Currency("CZK"), new Currency("SKK"));
-        return calculatorUSDtoCZK;
+        List<Pair<Currency, Currency>> exchangeList = new ArrayList<Pair<Currency, Currency>>();
+        exchangeList.add(new Pair<Currency, Currency>(new Currency("USD"), new Currency("CZK")));
+        exchangeList.add(new Pair<Currency, Currency>(new Currency("USD"), new Currency("SKK")));
+        exchangeList.add(new Pair<Currency, Currency>(new Currency("CZK"), new Currency("SKK")));
+        return calculatorModule.getCalculatorFactory().create(exchangeList);
     }
 
     /** Use the calculator that understands three currencies.
