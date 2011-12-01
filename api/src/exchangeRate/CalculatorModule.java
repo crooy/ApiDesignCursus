@@ -23,6 +23,8 @@ public final class CalculatorModule {
         
     public ICalculatorFactory getCalculatorFactory()
     {
+        assert(calculatorFactory != null);
+        assert(exchangeRates != null);
         return calculatorFactory;
     }
     
