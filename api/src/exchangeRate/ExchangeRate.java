@@ -40,6 +40,12 @@ public final class ExchangeRate {
         this.secondCurrency = secondCurrency;
     }
 
+    /**
+     * Compares this class with another exchange rate based on the currencies.
+     * Note that the exchange rate is not taken into account in the comparison.
+     * @param obj The right-hand side of the comparison.
+     * @return True when currencies of both objects are equal, otherwise return False.
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

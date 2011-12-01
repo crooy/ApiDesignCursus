@@ -10,4 +10,5 @@ package exchangeRate;
  */
 public interface ICalculatorFactory {
     Calculator create(Currency firstCurrency, Currency secondCurrency) throws ExchangeRateCalculatorException;
+    Calculator create(Calculator firstCalculator, Calculator secondCalculator) throws ExchangeRateCalculatorException;
 }
